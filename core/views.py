@@ -5,6 +5,10 @@ import time
 from django.shortcuts import render, redirect
 from .models import Merchant, Order
 from .forms import MerchantForm, OrderForm
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 
 def merchant_settings(request):
     if request.method == 'POST':
@@ -38,4 +42,26 @@ def simulate_payment(order_id):
     order.save()
 
 def home(request):
-    return render(request, 'core/home.html')
+    return render(request, 'home.html')
+
+def simulate_payment_thread():
+    time.sleep(5)
+    pending_orders = Order.objects.filter(status='pending')
+    for order in pending_orders:
+        order.status = 'paid'
+        order.save()
+
+def simulate_payment(request):
+    threading.Thread(target=simulate_payment_thread).start()
+    return redirect('order_list')
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # Log them in immediately
+            return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
