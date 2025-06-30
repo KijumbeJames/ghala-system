@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+  <div class="text-center py-5">
+    <h1>Welcome to Ghala Core System</h1>
+    <p class="lead">Manage merchant payment settings, place orders, and track payments with ease.</p>
+
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <a href="/merchant/settings/" class="btn btn-primary btn-lg">Merchant Settings</a>
+      <a href="/order/place/" class="btn btn-success btn-lg">Place Order</a>
+      <a href="/orders/" class="btn btn-info btn-lg">View Orders</a>
+    </div>
+  </div>
+{% endblock %}

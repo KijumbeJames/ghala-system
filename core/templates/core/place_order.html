@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Place Order{% endblock %}
+
+{% block content %}
+  <h2>Place Order</h2>
+  <form method="post" class="mt-4">
+    {% csrf_token %}
+    {{ form.as_p|safe }}
+    <button type="submit" class="btn btn-success">Place Order</button>
+  </form>
+{% endblock %}
+
